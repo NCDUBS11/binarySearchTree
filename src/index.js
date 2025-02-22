@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Tree, prettyPrint } from "./binarySearchTree";
+import { Tree, prettyPrint, randomArray } from "./binarySearchTree";
 //import { function name } from "./jsFile";
 //import odinImage from "./odin.png";
 
@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!");
 }
 
+// const pracTree = new Tree(randomArray(10, 100));
 const pracTree = new Tree();
 
 pracTree.insertNode(40);
@@ -24,8 +25,13 @@ pracTree.insertNode(13);
 
 prettyPrint(pracTree.root);
 
-pracTree.deleteNode(60);
-pracTree.deleteNode(48);
-pracTree.deleteNode(20);
+// pracTree.levelOrder(console.log);
 
-prettyPrint(pracTree.root);
+// prettyPrint(pracTree.root);
+
+// pracTree.levelOrderRec(console.log);
+// pracTree.inOrder(console.log);
+// pracTree.preOrder(console.log);
+// pracTree.postOrder(console.log);
+// pracTree.depth(20);
+// pracTree.height(20);

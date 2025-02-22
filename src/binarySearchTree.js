@@ -104,6 +104,28 @@ export class Tree {
     return root;
   }
 
+  findValue(value, root = this.root) {
+    try {
+      if (typeof value !== "number") {
+        throw new Error("Argument must be number value");
+      }
+
+      if (!root) {
+        return null;
+      }
+
+      if (value < root.value) {
+        root = this.findValue(value, root.left);
+      } else if (value > root.value) {
+        root = this.findValue(value, root.right);
+      }
+      return root;
+    } catch (e) {
+      console.log(e.message);
+      return 0;
+    }
+  }
+
   findMin(root = this.root) {
     try {
       if (!root) {
@@ -118,6 +140,124 @@ export class Tree {
       console.log(e);
       return 0;
     }
+  }
+
+  /*
+  Write a height(node) function that returns the given node’s height. 
+  Height is defined as the number of edges in the longest path from a given node 
+  to a leaf node. */
+  height(node = this.root, bool = 1) {
+    if (node != this.root) node = this.findValue(node);
+    const height = this.levelOrderRec(node);
+    if (bool === 1) {
+      console.log(`node value ${node.value}'s height = ${height.length - 1}`);
+    }
+    return height.length - 1;
+  }
+
+  /*
+  Write a depth(node) function that returns the given node’s depth. 
+  Depth is defined as the number of edges in the path from a given node to 
+  the tree’s root node.
+  */
+  depth(node) {
+    console.log(
+      `node value ${this.findValue(node).value}'s depth = ${this.height(this.root, 0) - this.height(node, 0)}`,
+    );
+    return this.height(this.root, 0) - this.height(node, 0);
+  }
+
+  inOrder(callback = null) {
+    const root = this.root;
+    let array = [];
+    this.inOrderHelper(array, root);
+    if (callback) {
+      callback(array);
+    }
+    return array;
+  }
+
+  inOrderHelper(array, root) {
+    if (!root) return;
+    this.inOrderHelper(array, root.left);
+    array.push(root.value);
+    this.inOrderHelper(array, root.right);
+  }
+
+  preOrder(callback = null) {
+    const root = this.root;
+    let array = [];
+    this.preOrderHelper(array, root);
+    if (callback) {
+      callback(array);
+    }
+    return array;
+  }
+
+  preOrderHelper(array, root) {
+    if (!root) return;
+    array.push(root.value);
+    this.preOrderHelper(array, root.left);
+    this.preOrderHelper(array, root.right);
+  }
+
+  postOrder(callback = null) {
+    const root = this.root;
+    let array = [];
+    this.postOrderHelper(array, root);
+    if (callback) {
+      callback(array);
+    }
+    return array;
+  }
+
+  postOrderHelper(array, root) {
+    if (!root) return;
+    this.postOrderHelper(array, root.left);
+    this.postOrderHelper(array, root.right);
+    array.push(root.value);
+  }
+
+  //performs level order traversal and returns an array of all values.
+  //requires a callback function that will be executed on each value
+  levelOrder(root = this.root, callback = null) {
+    if (!root) return;
+
+    let queue = [];
+    let values = [];
+
+    queue.push(root);
+
+    while (queue.length > 0) {
+      let currentNode = queue.at(0);
+      if (currentNode.left) queue.push(currentNode.left);
+      if (currentNode.right) queue.push(currentNode.right);
+      values.push(currentNode.value);
+      if (callback) {
+        callback(currentNode.value);
+      }
+      queue.shift();
+    }
+    return values;
+  }
+
+  levelOrderRec(root = this.root, callback = null) {
+    let array = [];
+    this.levelOrderRecHelper(array, root);
+    if (callback) {
+      callback(array);
+    }
+    return array;
+  }
+
+  levelOrderRecHelper(array, root = this.root, level = 0) {
+    if (!root) return;
+    if (array.length <= level) array.push([]);
+
+    array[level].push(root.value);
+
+    this.levelOrderRecHelper(array, root.left, level + 1);
+    this.levelOrderRecHelper(array, root.right, level + 1);
   }
 }
 
@@ -184,14 +324,6 @@ function merge(left, right) {
   return mergedArray;
 }
 
-//===================================================================================
-
-// let array = randomArray(10, 200);
-
-// console.log(mergeSort(array));
-
-// const newTree = new Tree(array);
-
 export const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -204,5 +336,3 @@ export const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
-// prettyPrint(newTree.root);
