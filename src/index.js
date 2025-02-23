@@ -8,45 +8,30 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // const pracTree = new Tree(randomArray(10, 100));
-const pracTree = new Tree();
+const pracTree = new Tree(randomArray(20, 99));
+prettyPrint(pracTree.root);
 
-pracTree.insertNode(40);
-pracTree.insertNode(20);
-pracTree.insertNode(40);
-pracTree.insertNode(60);
-pracTree.insertNode(70);
-pracTree.insertNode(60);
-pracTree.insertNode(25);
-pracTree.insertNode(10);
-pracTree.insertNode(48);
-pracTree.insertNode(47);
-pracTree.insertNode(53);
-pracTree.insertNode(68);
-pracTree.insertNode(23);
-pracTree.insertNode(33);
-pracTree.insertNode(1);
-pracTree.insertNode(85);
-pracTree.insertNode(13);
+console.log(`Is balanced?: ${pracTree.isBalanced()}`);
+console.log(`Level Order: ${pracTree.levelOrderRec()}`);
+console.log(`Pre Order: ${pracTree.preOrder()}`);
+console.log(`Post Order: ${pracTree.postOrder()}`);
+console.log(`In Order: ${pracTree.inOrder()}`);
+
+let newNums = randomArray(10, 999);
+
+newNums.forEach((value) => {
+  pracTree.insertNode(value);
+});
 
 prettyPrint(pracTree.root);
 
-// pracTree.levelOrder(console.log);
-
-// prettyPrint(pracTree.root);
-
-// pracTree.levelOrderRec(console.log);
-// pracTree.inOrder(console.log);
-// pracTree.preOrder(console.log);
-// pracTree.postOrder(console.log);
-// pracTree.depth(20);
-// pracTree.height(20);
-console.log(pracTree.isBalanced());
-
-pracTree.deleteNode(25);
-pracTree.deleteNode(23);
-pracTree.deleteNode(33);
-prettyPrint(pracTree.root);
-console.log(pracTree.isBalanced());
+console.log(`Is balanced?: ${pracTree.isBalanced()}`);
 pracTree.rebalance();
+console.log(`Tree rebalanced.`);
+console.log(`Is balanced?: ${pracTree.isBalanced()}`);
+console.log(`Level Order: ${pracTree.levelOrderRec()}`);
+console.log(`Pre Order: ${pracTree.preOrder()}`);
+console.log(`Post Order: ${pracTree.postOrder()}`);
+console.log(`In Order: ${pracTree.inOrder()}`);
+
 prettyPrint(pracTree.root);
-console.log(pracTree.isBalanced());
