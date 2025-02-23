@@ -167,6 +167,32 @@ export class Tree {
     return this.height(this.root, 0) - this.height(node, 0);
   }
 
+  isBalanced(root) {
+    return this.isBalancedHelper(root) >= 0 ? true : false;
+  }
+
+  isBalancedHelper(root = this.root) {
+    if (!root) return 0;
+
+    let leftHeight = this.isBalancedHelper(root.left);
+    let rightHeight = this.isBalancedHelper(root.right);
+
+    if (
+      leftHeight == -1 ||
+      rightHeight == -1 ||
+      Math.abs(leftHeight - rightHeight > 1)
+    ) {
+      return -1;
+    }
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  rebalance() {
+    if (!this.isBalanced()) {
+      this.root = this.buildTree(this.inOrder());
+    }
+  }
+
   inOrder(callback = null) {
     const root = this.root;
     let array = [];
